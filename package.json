@@ -1,0 +1,9 @@
+{
+  "name": "sydney-food",
+  "private": true,
+  "type": "module",
+  "engines": { "node": ">=18" },
+  "scripts": {
+    "build": "node build.mjs"
+  }
+}
