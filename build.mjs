@@ -11,6 +11,10 @@ import { readFile, writeFile, mkdir } from "node:fs/promises";
 // "docs" because GitHub Pages can publish that folder straight from the branch
 const OUT = "docs";
 
+// Public address of the site — share links are built on this, not on wherever
+// the page happens to be running. Override with SITE_URL when deploying elsewhere.
+const SITE = process.env.SITE_URL || "https://david989767-bit.github.io/food-spot-decider/";
+
 // Region keys -> how they read on the Location sheet, in display order.
 // "any" is prepended automatically.
 const REGIONS = [
@@ -168,7 +172,7 @@ if (!html.includes("/*__DATA__*/")) throw new Error("src/index.html is missing t
 
 const injected = html.replace(
   "/*__DATA__*/ null",
-  JSON.stringify({ PICKS, SUB, AREAS }).replace(/</g, "\\u003c")
+  JSON.stringify({ PICKS, SUB, AREAS, SITE }).replace(/</g, "\\u003c")
 );
 
 await mkdir(OUT, { recursive: true });

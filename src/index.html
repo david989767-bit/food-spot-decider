@@ -309,6 +309,7 @@ h1{
 // Data is injected at build time from the Google Sheet — see build.mjs
 const DATA = /*__DATA__*/ null;
 const PICKS = DATA.PICKS, SUB = DATA.SUB, AREAS = DATA.AREAS;
+const SITE = DATA.SITE || (location.origin + location.pathname);
 const $=id=>document.getElementById(id);
 const reduce=matchMedia("(prefers-reduced-motion: reduce)").matches;
 const inArea=(e,k)=>k==="any"||SUB[e.s].region===k;
@@ -432,7 +433,7 @@ function toast(msg){ const t=$("toast"); t.textContent=msg; t.hidden=false; clea
 async function shareTicket(){
   const e=state.current; if(!e) return;
   const meta=SUB[e.s];
-  const url=location.origin+location.pathname+"?pick="+pickId(e);
+  const url=SITE+"?pick="+pickId(e);
   const text=`${e.n}, ${meta.label} — picked for us by Surprise Me With a Food Spot`;
   if(navigator.share){
     try{ await navigator.share({title:e.n,text,url}); return; }
