@@ -7,8 +7,8 @@ file. Nothing runs on a server, so nothing costs money to run.
 data/places.csv    ← template for the "places" sheet
 data/suburbs.csv   ← template for the "suburbs" sheet
 src/index.html     ← the site, with a /*__DATA__*/ marker where data goes
-build.mjs          ← sheet -> dist/index.html
-dist/index.html    ← what you deploy (generated, don't edit)
+build.mjs          ← sheet -> docs/index.html
+docs/index.html    ← what you deploy (generated, don't edit)
 ```
 
 ## Build
@@ -73,7 +73,7 @@ a separate unpublished sheet.
 Cloudflare Pages, connected to a GitHub repo:
 
 - build command `node build.mjs`
-- output directory `dist`
+- output directory `docs`
 
 Free tier covers unlimited bandwidth and 500 builds a month. A `.pages.dev`
 subdomain costs nothing; a custom domain is the only real expense, around

@@ -8,7 +8,8 @@
 
 import { readFile, writeFile, mkdir } from "node:fs/promises";
 
-const OUT = "dist";
+// "docs" because GitHub Pages can publish that folder straight from the branch
+const OUT = "docs";
 
 // Region keys -> how they read on the Location sheet, in display order.
 // "any" is prepended automatically.
@@ -98,10 +99,11 @@ function build(placeRows, suburbRows) {
     SUB[slug(r.suburb)] = {
       label: r.suburb,
       region: slug(r.region || ""),
-      line,
+      line: line === "WALK" ? "Walk" : line === "BUS" ? "Bus" : line,
       lc: LINE_COLOUR[line] || "--walk",
-      mins: line === "WALK" ? `${r.mins} MIN WALK` : `${r.mins} MIN`,
-      how: line === "WALK" ? "ON FOOT" : line === "BUS" ? "BY BUS" : "FROM CENTRAL",
+      // every time is measured from Central; the mode rides along with the number
+      mins: line === "WALK" ? `${r.mins} min walk` : line === "BUS" ? `${r.mins} min by bus` : `${r.mins} min`,
+      how: "From Central",
     };
   }
 
@@ -134,11 +136,11 @@ function build(placeRows, suburbRows) {
 
   // Location sheet rows. Only the first two suburbs per region are shown as
   // examples, so the order of the suburbs sheet decides which ones appear.
-  const AREAS = [{ k: "any", nm: "Anywhere", sb: "SURPRISE ME", lead: true }];
+  const AREAS = [{ k: "any", nm: "Anywhere", sb: "Surprise me", lead: true }];
   for (const [key, label] of REGIONS) {
     const names = Object.values(SUB).filter(s => s.region === key).map(s => s.label);
     if (!names.length) continue;
-    AREAS.push({ k: key, nm: label, sb: "Eg. " + names.slice(0, 2).map(n => n.toUpperCase()).join(" · ") });
+    AREAS.push({ k: key, nm: label, sb: "Eg. " + names.slice(0, 2).join(" · ") });
   }
 
   return { PICKS, SUB, AREAS, warnings };
